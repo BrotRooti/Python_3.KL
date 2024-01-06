@@ -39,6 +39,15 @@ def end_game(player1, player2, draw, winner=None):
             mycursor.execute("UPDATE game SET losses = losses + 1 WHERE player_name = %s;", (player1,))
     mydb.commit()
 
+    stats = input("Do you want to see the statistics? (y/n)")
+    if stats == "y":
+        mycursor.execute("SELECT * FROM game ORDER BY wins DESC, draws DESC, losses DESC;")
+        # Present the data in a nice table
+        print(f"Statistics:\033[94m")
+        print(f"{'Name':15}{'Wins':6}{'Draws':6}{'Losses':5}")
+        for x in mycursor:
+            print(f"\033[0m{x[0]:<15}{x[1]:<6}{x[2]:<6}{x[3]:<5}")
+
     exit()
 
 
