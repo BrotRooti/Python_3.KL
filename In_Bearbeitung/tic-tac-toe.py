@@ -42,11 +42,17 @@ def end_game(player1, player2, draw, winner=None):
     stats = input("Do you want to see the statistics? (y/n)")
     if stats == "y":
         mycursor.execute("SELECT * FROM game ORDER BY wins DESC, draws DESC, losses DESC;")
+
+        counter = 0
         # Present the data in a nice table
         print(f"Statistics:\033[94m")
         print(f"{'Name':15}{'Wins':6}{'Draws':6}{'Losses':5}")
         for x in mycursor:
-            print(f"\033[0m{x[0]:<15}{x[1]:<6}{x[2]:<6}{x[3]:<5}")
+            if counter < 10:
+                print(f"\033[0m{x[0]:<15}{x[1]:<6}{x[2]:<6}{x[3]:<5}")
+                counter += 1
+            else:
+                break
 
     exit()
 
