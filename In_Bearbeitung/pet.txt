@@ -1,0 +1,4 @@
+Fluff,Sepp,Katze,w,2001-02-03,\N
+Wuffy,Franz,Hund,m,2002-04-05,2010-10-10
+Beiser,Franz,Hund,m,2008-09-12,\N
+Schnurrly,Otto,Katze,w,2009-12-12,\N
