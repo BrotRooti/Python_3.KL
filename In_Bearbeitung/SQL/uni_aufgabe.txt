@@ -1,0 +1,198 @@
+SELECT
+------
+1. Alle Informationen zu den Professoren, deren Rang C4 ist?
+
+SELECT * FROM Professoren WHERE RANG='C4';
++--------+----------+------+------+
+| PersNr | Name     | Rang | Raum |
++--------+----------+------+------+
+|   2125 | Sokrates | C4   | 226  |
+|   2126 | Russel   | C4   | 232  |
+|   2136 | Curie    | C4   | 36   |
+|   2137 | Kant     | C4   | 7    |
++--------+----------+------+------+
+
+
+
+
+
+2. Alle Informatioen zu Studenten, deren Name mit „F“ beginnt.
+
+SELECT * FROM Studenten WHERE LEFT(Name,1)='F';
++--------+-----------+----------+
+| MatrNr | Name      | Semester |
++--------+-----------+----------+
+|  26120 | Fichte    |       10 |
+|  29555 | Feuerbach |        2 |
++--------+-----------+----------+
+
+
+
+3. Den Durchschnittswert der inskribierten Semester der Studenten.
+
+SELECT AVG(Semester) FROM Studenten;
++---------------+
+| AVG(Semester) |
++---------------+
+|        7.6250 |
++---------------+
+
+
+4. Alle Info zu den Professoren, die eine höhere PersNr haben als 2135.
+
+SELECT * FROM Professoren WHERE PersNR>2135;
++--------+-------+------+------+
+| PersNr | Name  | Rang | Raum |
++--------+-------+------+------+
+|   2136 | Curie | C4   | 36   |
+|   2137 | Kant  | C4   | 7    |
++--------+-------+------+------+
+
+
+5. Nur die Personalnummer und den Name der Assistenten, deren Boss die Personalnummer 2126 hat.
+
+SELECT name, PerslNr  FROM Assistenten WHERE Boss=2126;
++--------------+---------+
+| name         | PerslNr |
++--------------+---------+
+| Wittgenstein |    3004 |
+| Spinoza      |    3007 |
++--------------+---------+
+
+
+6. Welcher Assistent beschäftigt sich mit Kepler (Hinweis: bei wem kommt Kepler im Fachgebiet vor).
+
+SELECT * FROM Assistenten WHERE Fachgebiet LIKE '%Kepler%';
++---------+--------+--------------------+------+
+| PerslNr | Name   | Fachgebiet         | Boss |
++---------+--------+--------------------+------+
+|    3006 | Newton | Keplersche Gesetze | 2127 |
++---------+--------+--------------------+------+
+
+
+7. Welcher Student hat die höchste Anzahl an inskribierten Semester bei den Studenten und wie viele Semester studiert er schon?
+
+SELECT * FROM Studenten GROUP BY Semester DESC;
++--------+--------------+----------+
+| MatrNr | Name         | Semester |
++--------+--------------+----------+
+|  24002 | Xenokrates   |       18 |
+|  25403 | Jonas        |       12 |
+|  26120 | Fichte       |       10 |
+|  26830 | Aristoxenos  |        8 |
+|  27550 | Schopenhauer |        6 |
+|  28106 | Carnap       |        3 |
+|  29120 | Theophrastos |        2 |
++--------+--------------+----------+
+
+
+8. Welche Vorlesungen haben entweder 4 Semesterwochenstunden (SWS) oder werden von einem Professor mit der Personalnummer 2125 gelesen?
+
+SELECT * FROM Vorlesungen WHERE SWS = 4 OR gelesen_von=2125;
++--------+----------------+-----+-------------+
+| VorlNr | Titel          | SWS | gelesen_von |
++--------+----------------+-----+-------------+
+|   4052 | Logik          |   4 |        2125 |
+|   4630 | Die 3 Kritiken |   4 |        2137 |
+|   5001 | Grundzüge      |   4 |        2137 |
+|   5041 | Ethik          |   4 |        2125 |
+|   5049 | Mäeutik        |   2 |        2125 |
++--------+----------------+-----+-------------+
+
+9. Wie viele Vorlesungen werden insgesamt angeboten?
+
+SELECT COUNT(*) FROM Vorlesungen;
++----------+
+| COUNT(*) |
++----------+
+|       10 |
++----------+
+
+
+10. Welche Vorlesungstitel enden mit 'theorie'?
+
+SELECT * FROM Vorlesungen WHERE RIGHT(Titel,7)='theorie';
++--------+----------------------+-----+-------------+
+| VorlNr | Titel                | SWS | gelesen_von |
++--------+----------------------+-----+-------------+
+|   5043 | Erkenntnistheorie    |   3 |        2126 |
+|   5052 | Wissenschaftstheorie |   3 |        2126 |
++--------+----------------------+-----+-------------+
+
+
+INSERT
+------
+1. Ein neuer Professor hat sich angemeldet (Bitte PersNr, Name, Rang und Raum selbst wählen).
+
+
+INSERT INTO Professoren
+    -> VALUES('727','Mäximum','F14','727');
+Query OK, 1 row affected (0,009 sec)
+
+
+
+2. Zwei neue Studenten haben sich angemeldet (Namen und MatrNr bitte selbst wählen). Beide sollen in einer Anweisung eingefügt werden.
+
+
+INSERT INTO Studenten (MatrNr,Name,Semester) VALUES (30727,'Toast',1), (30420,'Brot',1);
+Query OK, 2 rows affected (0,002 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+
+
+3. In welchen Fällen ist die Angabe der Spaltennamen notwendig, in welchen nicht?
+
+Wenn man mehrere Zeilen hinzufügt und sicher gehen will, dass man die Werte richtig zuordnet
+
+
+UPDATE
+------
+
+4. Ein neues Semester hat begonnen. Bitte die Semesteranzahl bei allen Studenten erhöhen
+
+UPDATE Studenten SET Semester=Semester+1;
+Query OK, 10 rows affected (0,003 sec)
+Rows matched: 10  Changed: 10  Warnings: 0
+
+
+5. Bei der Vorlesung "Glaube und Wissen" hat man sich im Namen geirrt, sie heißt eigentlich "Wissen und Glaube". Mit welchen Anweisung kann die Änderung vorgenommen werden?
+
+UPDATE Vorlesungen SET Titel='Wissen und Glaube' WHERE Titel = 'Glaube und Wissen';
+Query OK, 1 row affected (0,002 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+
+6. Es gibt keine Vorlesungen mehr mit 4 SWS, diese wurden allgemein auf 5 erhöht.
+
+UPDATE Vorlesungen SET SWS=5  WHERE SWS = 4;
+Query OK, 4 rows affected (0,014 sec)
+Rows matched: 4  Changed: 4  Warnings: 0
+
+
+
+DELETE
+------
+
+7. Alle Studenten, die eine höhere Semesteranzahl als 15 haben, fliegen aus der Datenbank.
+
+DELETE FROM Studenten WHERE Semester > 15;
+Query OK, 1 row affected (0,005 sec)
+
+
+8. Sokrates (2125) hat gekündigt, bitte aus der Datenbank entfernen
+
+DELETE FROM Professoren WHERE PersNr = 2125;
+Query OK, 1 row affected (0,002 sec)
+
+
+9. Bitte auch alle Vorlesungen löschen, die von ihm gehalten wurden
+
+DELETE FROM Vorlesungen WHERE gelesen_von = 2125;
+Query OK, 3 rows affected (0,003 sec)
+
+
+10. Bitte auch alle Assistenten entlassen, die bei ihm angestellt waren
+
+DELETE FROM Assistenten WHERE Boss = 2125;
+Query OK, 2 rows affected (0,003 sec)
+
