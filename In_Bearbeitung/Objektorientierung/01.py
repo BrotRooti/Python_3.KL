@@ -25,11 +25,11 @@ class Car:
             return
         used_fuel = range/self.miles_per_gallon
         if used_fuel > self.tank_level:
-            print(f"Vroom, {self.manufacturer} {self.model} is driving. You ran out of fuel after {(self.tank_level*self.miles_per_gallon):.2f} kilometers")
+            print(f"Vroom, {self.manufacturer} {self.model} is driving. You ran out of fuel after {self.tank_level*self.miles_per_gallon:.1f} kilometers")
             return
         else:
             self.tank_level -= used_fuel
-            print(f"Vroom Vroom, {self.manufacturer} {self.model} is driving. The tank is now at {self.tank_level} liters")
+            print(f"Vroom Vroom, {self.manufacturer} {self.model} is driving. The tank is now at {self.tank_level:.1f} liters")
 
 
 
