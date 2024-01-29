@@ -1,5 +1,6 @@
 from FourWheels import FourWheelDrive
 
+
 class CountryTruck(FourWheelDrive):
     def __init__(self, brand, price):
         super().__init__(brand, price)

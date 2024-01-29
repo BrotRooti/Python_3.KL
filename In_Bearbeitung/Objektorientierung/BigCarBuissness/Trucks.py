@@ -1,5 +1,6 @@
 from BigCarBuisness import Vehicle
 
+
 class Trucks(Vehicle):
     def __init__(self, brand, price):
         super().__init__(brand, price)
