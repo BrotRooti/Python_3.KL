@@ -19,12 +19,15 @@ from Aktien_Classes import Player, Stock, LowRiskStock, MedRiskStock, HighRiskSt
 #                   Functions                    #
 ##################################################
 
-def buy_stock(Player,stock,amount):
+def buy_stock(Player, stock, amount):
     if stock.current_value * amount > Player.money:
         print("Hallo stop du hast nicht genug Geld!")
         return
-    Player.stocks[stock] = amount
+    Player.stocks[stock] = amount + Player.stocks.get(stock, 0)
+    Player.money -= stock.current_value * amount
     print(Player.stocks)
+    print(Player.money)
+
 
 
 
@@ -52,3 +55,4 @@ for st in Market:
 for st in Market:
     print(st.name, end=": ")
     print(st.current_value)
+
