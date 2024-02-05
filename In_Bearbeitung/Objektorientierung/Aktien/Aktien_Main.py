@@ -39,7 +39,7 @@ def buy_stock(Player, stock, amount):
 
 #name= input("What is your name? ")
 name= "Testosteronus Maximus"
-Pl = Player(name,10000)
+Pl = Player(name,690000)
 
 Market = []
 Market.append(LowRiskStock("PhillipsFischereiAG", 230, 2))
@@ -48,7 +48,7 @@ Market.append(HighRiskStock("R&B RechtskanzleiAG", 727, 50))
 print(Pl.money)
 
 
-Aktien_GUI.app = Aktien_GUI.HomeScreen(name, 10000, {})
+Aktien_GUI.app = Aktien_GUI.HomeScreen(Pl.name, Pl.money, Pl.stocks)
 Aktien_GUI.app.mainloop()
 
 buy_stock(Pl, Market[1], 4)
