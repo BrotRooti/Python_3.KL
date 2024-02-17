@@ -4,7 +4,7 @@
 
 
 import customtkinter as ctk
-import time
+from Aktien_Config import Pl
 
 
 ##################################################
@@ -13,12 +13,13 @@ import time
 
 
 class HomeScreen(ctk.CTk):
-    def __init__(self, name="Testor", money=10000, stocks={}):
+    def __init__(self):
         super().__init__()
         self.title("Ballin' Aktien Sim!")
         self.geometry("800x600")
-        self.name = name
-        self.money = "Money: " + str(money) + "€"
+        self.name = Pl.name
+        self.money = "Money: " + str(Pl.money) + "€"
+        self.stocks = Pl.stocks
 
         self.conf()
         self.create_widgets()
@@ -72,11 +73,40 @@ class HomeScreen(ctk.CTk):
         pass
 
     def market(self):
-        pass
+        self.destroy()
+        Market = MarketScreen()
+        Market.mainloop()
 
     def log_out(self):
         self.destroy()
         quit()
+
+class MarketScreen(HomeScreen):
+    def __init__(self):
+        super().__init__()
+        self.title("Market")
+        self.create_widgets()
+
+    def create_widgets(self):
+        Title = ctk.CTkLabel(self, text="Market", fg_color="transparent", bg_color="#EBEBEB",
+                             font=("Futura", 70, "bold"))
+        BackButton = ctk.CTkButton(self, text="Back", fg_color="#860808", bg_color="#EBEBEB", border_width=2,
+                                     font=("Futura", 15, "bold"), command=self.back)
+        Title.grid(row=2, column=2, sticky="n")
+        BackButton.grid(row=7, column=0, sticky="sw")
+
+    def conf(self):
+        for i in range(5):
+            self.columnconfigure(i, weight=1)
+            if i == 2:
+                self.rowconfigure(i, weight=1)
+        for i in range(8):
+            self.rowconfigure(i, weight=1)
+
+    def back(self):
+        self.destroy()
+        Home = HomeScreen()
+        Home.mainloop()
 
 class Loginwindow(ctk.CTk):
     def __init__(self):
