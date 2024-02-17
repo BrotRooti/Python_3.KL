@@ -47,6 +47,10 @@ Market.append(MedRiskStock("MaximalGerüstbauAG", 500, 10))
 Market.append(HighRiskStock("R&B RechtskanzleiAG", 727, 50))
 print(Pl.money)
 
+Login = Aktien_GUI.Loginwindow()
+Login.mainloop()
+Pl.name = Login.creds
+
 
 Aktien_GUI.app = Aktien_GUI.HomeScreen(Pl.name, Pl.money, Pl.stocks)
 Aktien_GUI.app.mainloop()
