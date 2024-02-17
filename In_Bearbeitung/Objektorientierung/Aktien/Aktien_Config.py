@@ -8,11 +8,11 @@ Market.append(MedRiskStock("MaximalGerüstbauAG", 500, 10))
 Market.append(HighRiskStock("R&B RechtskanzleiAG", 727, 50))
 
 ### Player##
-name= "Testosteronus Maximus"
+name = "Testosteronus Maximus"
 Pl = Player(name,690000)
 
 
-#buy_stock(Pl, Market[1], 4)
+
 for st in Market:
     st.update_current_value()
 

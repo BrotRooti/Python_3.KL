@@ -63,7 +63,8 @@ class HomeScreen(ctk.CTk):
             self.rowconfigure(i, weight=1)
 
     def start_trading(self):
-        pass
+        self.destroy()
+        TradeScreen().mainloop()
 
     def wait_week(self):
         self.WaitedLabel.grid(row=6, column=2, sticky="s")
@@ -74,8 +75,7 @@ class HomeScreen(ctk.CTk):
 
     def market(self):
         self.destroy()
-        Market = MarketScreen()
-        Market.mainloop()
+        MarketScreen().mainloop()
 
     def log_out(self):
         self.destroy()
@@ -107,6 +107,49 @@ class MarketScreen(HomeScreen):
         self.destroy()
         Home = HomeScreen()
         Home.mainloop()
+
+class TradeScreen(HomeScreen):
+    def __init__(self):
+        super().__init__()
+        self.title("Trade")
+
+
+        self.create_widgets()
+
+
+
+
+    def create_widgets(self):
+        self.frame1 = ctk.CTkScrollableFrame(self, bg_color="#EBEBEB")
+        self.frame2 = ctk.CTkFrame(self, bg_color="#EBEBEB")
+
+
+        Title = ctk.CTkLabel(self, text="Trade", fg_color="transparent", bg_color="#EBEBEB",
+                             font=("Futura", 70, "bold"))
+        BackButton = ctk.CTkButton(self, text="Back", fg_color="#860808", bg_color="#EBEBEB", border_width=2,
+                                     font=("Futura", 15, "bold"), command=self.back)
+        self.TestButton = ctk.CTkButton(self.frame1, text="Test", fg_color="#860808", bg_color="#EBEBEB", border_width=2,
+                                     font=("Futura", 15, "bold"))
+
+        self.frame1.grid(row=1, column=0, sticky="n")
+        self.frame2.grid(row=1, column=1, sticky="n")
+        Title.grid(row=0, column=2, sticky="n")
+        BackButton.grid(row=7, column=0, sticky="sw")
+        self.TestButton.pack()
+
+    def conf(self):
+        for i in range(5):
+            self.columnconfigure(i, weight=1)
+            if i == 2:
+                self.rowconfigure(i, weight=1)
+        for i in range(8):
+            self.rowconfigure(i, weight=1)
+
+    def back(self):
+        self.destroy()
+        Home = HomeScreen()
+        Home.mainloop()
+
 
 class Loginwindow(ctk.CTk):
     def __init__(self):
