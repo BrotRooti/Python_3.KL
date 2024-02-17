@@ -4,7 +4,7 @@
 
 
 import customtkinter as ctk
-from Aktien_Config import Pl
+from Aktien_Config import Pl, Market as M
 
 
 ##################################################
@@ -111,7 +111,7 @@ class MarketScreen(HomeScreen):
 class TradeScreen(HomeScreen):
     def __init__(self):
         super().__init__()
-        self.title("Trade")
+        self.title("Tradin up!")
 
 
         self.create_widgets()
@@ -128,14 +128,17 @@ class TradeScreen(HomeScreen):
                              font=("Futura", 70, "bold"))
         BackButton = ctk.CTkButton(self, text="Back", fg_color="#860808", bg_color="#EBEBEB", border_width=2,
                                      font=("Futura", 15, "bold"), command=self.back)
-        self.TestButton = ctk.CTkButton(self.frame1, text="Test", fg_color="#860808", bg_color="#EBEBEB", border_width=2,
-                                     font=("Futura", 15, "bold"))
+
+        for i in M:
+            ctk.CTkLabel(self.frame1, text=i.name, fg_color="transparent", bg_color="#EBEBEB",
+                             font=("Futura", 20, "bold")).pack()
 
         self.frame1.grid(row=1, column=0, sticky="n")
         self.frame2.grid(row=1, column=1, sticky="n")
-        Title.grid(row=0, column=2, sticky="n")
-        BackButton.grid(row=7, column=0, sticky="sw")
-        self.TestButton.pack()
+        Title.grid(row=0, column=1, sticky="n")
+        BackButton.grid(row=3, column=0, sticky="sw")
+
+
 
     def conf(self):
         for i in range(5):
