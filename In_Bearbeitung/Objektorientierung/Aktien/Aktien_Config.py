@@ -1,4 +1,11 @@
-from Aktien_Classes import Player, Stock, LowRiskStock, MedRiskStock, HighRiskStock
+from Aktien_Classes import Player, LowRiskStock, MedRiskStock, HighRiskStock
+
+##################################################
+#                 Functions                      #
+##################################################
+def market_update():
+    for stock in Market:
+        stock.update_current_value()
 
 ##################################################
 #                    Market                      #

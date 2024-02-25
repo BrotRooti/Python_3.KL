@@ -5,7 +5,7 @@
 
 import customtkinter as ctk
 import matplotlib.pyplot as plt
-from Aktien_Config import Pl, Market as M
+from Aktien_Config import Pl, Market as M, market_update
 
 
 ##################################################
@@ -69,8 +69,7 @@ class HomeScreen(ctk.CTk):
 
     def wait_week(self):
         self.WaitedLabel.grid(row=6, column=2, sticky="s")
-        for st in M:
-            st.update_current_value()
+        market_update()
         self.after(1000, self.WaitedLabel.grid_forget)
 
     def my_depot(self):
@@ -169,9 +168,9 @@ class TradeScreen(MarketScreen):
         self.amount_entry.grid(row=3, column=0, sticky="n")
         self.buybutton.grid(row=4, column=0, sticky="n")
 
-
-
-
+    def back(self):
+        market_update()
+        super().back()
 
 class DepotScreen(MarketScreen):
     def __init__(self):
