@@ -4,6 +4,7 @@
 
 
 import customtkinter as ctk
+import matplotlib.pyplot as plt
 from Aktien_Config import Pl, Market as M
 
 
@@ -93,8 +94,8 @@ class MarketScreen(HomeScreen):
 
 
     def create_widgets(self):
-        self.frame1 = ctk.CTkScrollableFrame(self, bg_color="#EBEBEB")
-        self.frame2 = ctk.CTkFrame(self, bg_color="#EBEBEB")
+        self.frame1 = ctk.CTkScrollableFrame(self, bg_color="#EBEBEB", width=300, height=500)
+        self.frame2 = ctk.CTkFrame(self, bg_color="#EBEBEB", width=600, height=500)
 
 
         Title = ctk.CTkLabel(self, text="Trade", fg_color="transparent", bg_color="#EBEBEB",
@@ -119,69 +120,58 @@ class MarketScreen(HomeScreen):
         self.frame2.grid(row=1, column=1, sticky="n")
         NameLabel = ctk.CTkLabel(self.frame2, text=stock.name, fg_color="transparent", bg_color="#EBEBEB",
                              font=("Futura", 40, "bold"))
-        ValueLabel = ctk.CTkLabel(self.frame2, text="Value: " + str(stock.current_value), fg_color="transparent", bg_color="#EBEBEB",
+        ValueLabel = ctk.CTkLabel(self.frame2, text="Value: " + str(stock.current_value) + "€", fg_color="transparent", bg_color="#EBEBEB",
                              font=("Futura", 20, "bold"))
-        DescriptionLabel = ctk.CTkLabel(self.frame2, text=stock.desc, fg_color="transparent", bg_color="#EBEBEB",
+        self.DescriptionLabel = ctk.CTkLabel(self.frame2, text=stock.desc, fg_color="transparent", bg_color="#EBEBEB",
                                 font=("Futura", 20, "bold"))
         NameLabel.grid(row=0, column=0, sticky="n")
         ValueLabel.grid(row=1, column=0, sticky="n")
-        DescriptionLabel.grid(row=2, column=0, sticky="n")
+        self.DescriptionLabel.grid(row=2, column=0, sticky="n")
 
 
     def back(self):
         self.destroy()
         Home = HomeScreen()
         Home.mainloop()
-
 
 class TradeScreen(MarketScreen):
     def __init__(self):
         super().__init__()
         self.title("Tradin up!")
 
-        self.create_widgets()
-
-
-    def create_widgets(self):
         super().create_widgets()
 
     def stock_info(self, stock):
-        self.frame2.destroy()
-        self.frame2 = ctk.CTkFrame(self, bg_color="#EBEBEB")
-        self.frame2.grid(row=1, column=1, sticky="n")
-        NameLabel = ctk.CTkLabel(self.frame2, text=stock.name, fg_color="transparent", bg_color="#EBEBEB",
-                             font=("Futura", 40, "bold"))
-        ValueLabel = ctk.CTkLabel(self.frame2, text="Value: " + str(stock.current_value), fg_color="transparent", bg_color="#EBEBEB",
-                             font=("Futura", 20, "bold"))
-        BuyButton = ctk.CTkButton(self.frame2, text="Buy", fg_color="#860808", bg_color="#EBEBEB", border_width=2,
-                                     font=("Futura", 15, "bold"), command=self.buy_stock(stock))
-        NameLabel.grid(row=0, column=0, sticky="n")
-        ValueLabel.grid(row=1, column=0, sticky="n")
-        BuyButton.grid(row=2, column=0, sticky="n")
+        super().stock_info(stock)
+        self.DescriptionLabel.grid_forget()
+
+        self.buy_stock(stock)
+
 
     def buy_stock(self, stock):
         def buy():
             amount = int(self.amount_entry.get())
             if stock.current_value * amount > Pl.money:
-                print("Hallo stop du hast nicht genug Geld!")
+                self.ErrorLabel.grid(row=5, column=0, sticky="n")
+                self.after(1000, self.ErrorLabel.grid_forget)
                 return
             Pl.stocks[stock] = amount + Pl.stocks.get(stock, 0)
             Pl.stocks_value[stock] = stock.current_value
             Pl.money -= stock.current_value * amount
-            print(Pl.stocks)
-            print(Pl.money)
+
+
         self.amount_entry = ctk.CTkEntry(self.frame2, width=200)
-        self.amount_entry.grid(row=3, column=0, sticky="n")
         self.buybutton = ctk.CTkButton(self.frame2, text="Buy", fg_color="green", bg_color="#EBEBEB", border_width=2,
                                      font=("Futura", 15, "bold"), command=buy)
+        self.ErrorLabel = ctk.CTkLabel(self.frame2, text="You don't have enough money!", fg_color="transparent", bg_color="#EBEBEB",
+                                        font=("Futura", 20, "bold"))
+
+        self.amount_entry.grid(row=3, column=0, sticky="n")
         self.buybutton.grid(row=4, column=0, sticky="n")
 
 
 
-    def back(self):
-        self.destroy()
-        Home = HomeScreen()
-        Home.mainloop()
+
 
 class DepotScreen(MarketScreen):
     def __init__(self):

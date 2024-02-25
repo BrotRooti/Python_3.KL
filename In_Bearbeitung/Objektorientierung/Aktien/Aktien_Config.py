@@ -1,6 +1,8 @@
 from Aktien_Classes import Player, Stock, LowRiskStock, MedRiskStock, HighRiskStock
 
-### Market###
+##################################################
+#                    Market                      #
+##################################################
 
 Market = []
 Market.append(LowRiskStock("PhillipsFischereiAG", 230, 2))
@@ -26,15 +28,11 @@ Market[8].desc = "StartUp"
 
 
 
-### Player##
+##################################################
+#                   Player                       #
+##################################################
 name = "Testosteronus Maximus"
 Pl = Player(name,690000)
 
 
 
-for st in Market:
-    st.update_current_value()
-
-for st in Market:
-    print(st.name, end=": ")
-    print(st.current_value)
