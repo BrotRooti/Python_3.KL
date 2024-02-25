@@ -84,35 +84,7 @@ class HomeScreen(ctk.CTk):
 class MarketScreen(HomeScreen):
     def __init__(self):
         super().__init__()
-        self.title("Market")
-        self.create_widgets()
-
-    def create_widgets(self):
-        Title = ctk.CTkLabel(self, text="Market", fg_color="transparent", bg_color="#EBEBEB",
-                             font=("Futura", 70, "bold"))
-        BackButton = ctk.CTkButton(self, text="Back", fg_color="#860808", bg_color="#EBEBEB", border_width=2,
-                                     font=("Futura", 15, "bold"), command=self.back)
-        Title.grid(row=2, column=2, sticky="n")
-        BackButton.grid(row=7, column=0, sticky="sw")
-
-    def conf(self):
-        for i in range(5):
-            self.columnconfigure(i, weight=1)
-            if i == 2:
-                self.rowconfigure(i, weight=1)
-        for i in range(8):
-            self.rowconfigure(i, weight=1)
-
-    def back(self):
-        self.destroy()
-        Home = HomeScreen()
-        Home.mainloop()
-
-class TradeScreen(HomeScreen):
-    def __init__(self):
-        super().__init__()
-        self.title("Tradin up!")
-
+        self.title("Marketing")
 
         self.create_widgets()
 
@@ -122,37 +94,91 @@ class TradeScreen(HomeScreen):
     def create_widgets(self):
         self.frame1 = ctk.CTkScrollableFrame(self, bg_color="#EBEBEB")
         self.frame2 = ctk.CTkFrame(self, bg_color="#EBEBEB")
+        btns = []
 
 
         Title = ctk.CTkLabel(self, text="Trade", fg_color="transparent", bg_color="#EBEBEB",
                              font=("Futura", 70, "bold"))
         BackButton = ctk.CTkButton(self, text="Back", fg_color="#860808", bg_color="#EBEBEB", border_width=2,
                                      font=("Futura", 15, "bold"), command=self.back)
+        print(M)
 
-        for i in M:
-            ctk.CTkLabel(self.frame1, text=i.name, fg_color="transparent", bg_color="#EBEBEB",
-                             font=("Futura", 20, "bold")).pack()
+        for stocks in M:
+            ctk.CTkButton(self.frame1, text=stocks.name, fg_color="transparent", bg_color="#EBEBEB",
+                             font=("Futura", 20, "bold"), command=lambda stock=stocks: self.stock_info(stock)).pack()
+
 
         self.frame1.grid(row=1, column=0, sticky="n")
         self.frame2.grid(row=1, column=1, sticky="n")
         Title.grid(row=0, column=1, sticky="n")
-        BackButton.grid(row=3, column=0, sticky="sw")
+        BackButton.grid(row=2, column=0, sticky="sw")
 
 
+    def stock_info(self, stock):
+        self.frame2.destroy()
+        self.frame2 = ctk.CTkFrame(self, bg_color="#EBEBEB")
+        self.frame2.grid(row=1, column=1, sticky="n")
+        NameLabel = ctk.CTkLabel(self.frame2, text=stock.name, fg_color="transparent", bg_color="#EBEBEB",
+                             font=("Futura", 40, "bold"))
+        ValueLabel = ctk.CTkLabel(self.frame2, text="Value: " + str(stock.current_value), fg_color="transparent", bg_color="#EBEBEB",
+                             font=("Futura", 20, "bold"))
+        NameLabel.grid(row=0, column=0, sticky="n")
+        ValueLabel.grid(row=1, column=0, sticky="n")
 
-    def conf(self):
-        for i in range(5):
-            self.columnconfigure(i, weight=1)
-            if i == 2:
-                self.rowconfigure(i, weight=1)
-        for i in range(8):
-            self.rowconfigure(i, weight=1)
 
     def back(self):
         self.destroy()
         Home = HomeScreen()
         Home.mainloop()
 
+
+class TradeScreen(MarketScreen):
+    def __init__(self):
+        super().__init__()
+        self.title("Tradin up!")
+
+        self.create_widgets()
+
+
+    def create_widgets(self):
+        super().create_widgets()
+
+    def stock_info(self, stock):
+        self.frame2.destroy()
+        self.frame2 = ctk.CTkFrame(self, bg_color="#EBEBEB")
+        self.frame2.grid(row=1, column=1, sticky="n")
+        NameLabel = ctk.CTkLabel(self.frame2, text=stock.name, fg_color="transparent", bg_color="#EBEBEB",
+                             font=("Futura", 40, "bold"))
+        ValueLabel = ctk.CTkLabel(self.frame2, text="Value: " + str(stock.current_value), fg_color="transparent", bg_color="#EBEBEB",
+                             font=("Futura", 20, "bold"))
+        BuyButton = ctk.CTkButton(self.frame2, text="Buy", fg_color="#860808", bg_color="#EBEBEB", border_width=2,
+                                     font=("Futura", 15, "bold"), command=self.buy_stock(stock))
+        NameLabel.grid(row=0, column=0, sticky="n")
+        ValueLabel.grid(row=1, column=0, sticky="n")
+        BuyButton.grid(row=2, column=0, sticky="n")
+
+    def buy_stock(self, stock):
+        def buy():
+            amount = int(self.amount_entry.get())
+            if stock.current_value * amount > Pl.money:
+                print("Hallo stop du hast nicht genug Geld!")
+                return
+            Pl.stocks[stock] = amount + Pl.stocks.get(stock, 0)
+            Pl.money -= stock.current_value * amount
+            print(Pl.stocks)
+            print(Pl.money)
+        self.amount_entry = ctk.CTkEntry(self.frame2, width=200)
+        self.amount_entry.grid(row=3, column=0, sticky="n")
+        self.buybutton = ctk.CTkButton(self.frame2, text="Buy", fg_color="green", bg_color="#EBEBEB", border_width=2,
+                                     font=("Futura", 15, "bold"), command=buy)
+        self.buybutton.grid(row=4, column=0, sticky="n")
+
+
+
+    def back(self):
+        self.destroy()
+        Home = HomeScreen()
+        Home.mainloop()
 
 class Loginwindow(ctk.CTk):
     def __init__(self):
