@@ -140,6 +140,8 @@ class TradeScreen(MarketScreen):
 
         super().create_widgets()
 
+
+
     def stock_info(self, stock):
         super().stock_info(stock)
         self.DescriptionLabel.grid_forget()
@@ -151,26 +153,39 @@ class TradeScreen(MarketScreen):
         def buy():
             amount = int(self.amount_entry.get())
             if stock.current_value * amount > Pl.money:
-                self.ErrorLabel.grid(row=5, column=0, sticky="n")
-                self.after(1000, self.ErrorLabel.grid_forget)
+                self.ErrorLabelMoney.grid(row=5, column=0, sticky="n")
+                self.after(1000, self.ErrorLabelMoney.grid_forget)
                 return
             Pl.stocks[stock] = amount + Pl.stocks.get(stock, 0)
             Pl.stocks_value[stock] = stock.current_value
             Pl.money -= stock.current_value * amount
 
 
+        def sell():
+            amount = int(self.amount_entry.get())
+            if Pl.stocks.get(stock, 0) < amount:
+                self.ErrorLabelStocks.grid(row=5, column=0, sticky="n")
+                self.after(1000, self.ErrorLabelStocks.grid_forget)
+                return
+            Pl.stocks[stock] = Pl.stocks.get(stock, 0) - amount
+            Pl.money += stock.current_value * amount
+
+
         self.amount_entry = ctk.CTkEntry(self.frame2, width=200)
         self.buybutton = ctk.CTkButton(self.frame2, text="Buy", fg_color="green", bg_color="#EBEBEB", border_width=2,
                                      font=("Futura", 15, "bold"), command=buy)
-        self.ErrorLabel = ctk.CTkLabel(self.frame2, text="You don't have enough money!", fg_color="transparent", bg_color="#EBEBEB",
+        self.sellbutton = ctk.CTkButton(self.frame2, text="Sell", fg_color="red", bg_color="#EBEBEB", border_width=2,
+                                        font=("Futura", 15, "bold"), command=sell)
+        self.ErrorLabelMoney = ctk.CTkLabel(self.frame2, text="You don't have enough money!", fg_color="transparent", bg_color="#EBEBEB",
+                                        font=("Futura", 20, "bold"))
+        self.ErrorLabelStocks = ctk.CTkLabel(self.frame2, text="You don't have enough of these stotcks to sell!", fg_color="transparent", bg_color="#EBEBEB",
                                         font=("Futura", 20, "bold"))
 
         self.amount_entry.grid(row=3, column=0, sticky="n")
         self.buybutton.grid(row=4, column=0, sticky="n")
+        self.sellbutton.grid(row=5, column=0, sticky="n")
 
-    def back(self):
-        market_update()
-        super().back()
+
 
 class DepotScreen(MarketScreen):
     def __init__(self):
@@ -187,6 +202,7 @@ class DepotScreen(MarketScreen):
 
         Title = ctk.CTkLabel(self, text="Trade", fg_color="transparent", bg_color="#EBEBEB",
                              font=("Futura", 70, "bold"))
+
         BackButton = ctk.CTkButton(self, text="Back", fg_color="#860808", bg_color="#EBEBEB", border_width=2,
                                      font=("Futura", 15, "bold"), command=self.back)
 
@@ -208,10 +224,11 @@ class DepotScreen(MarketScreen):
         NameLabel = ctk.CTkLabel(self.frame2, text=stock.name, fg_color="transparent", bg_color="#EBEBEB",
                              font=("Futura", 40, "bold"))
         DescriptionLabel = ctk.CTkLabel(self.frame2, text=stock.desc, fg_color="transparent", bg_color="#EBEBEB",
-                                        font=("Futura", 20, "bold"))
-        ValueLabel = ctk.CTkLabel(self.frame2, text="Current Value: " + str(stock.current_value)
-                                    + "€\nBought for: " + str(Pl.stocks_value[stock])
-                                    + "€\nAmount: " + str(Pl.stocks[stock]) + "\nTotal Value: "
+                                        font=("Futura", 20, "italic"))
+        ValueLabel = ctk.CTkLabel(self.frame2, text=
+                                    "\nAmount: " + str(Pl.stocks[stock])
+                                    + "\nBought for: " + str(Pl.stocks_value[stock])
+                                    + "€\nCurrent Value: " + str(stock.current_value) + "\nTotal Value: "
                                     + str(Pl.stocks[stock] * stock.current_value) + "€"
                             , fg_color="transparent", bg_color="#EBEBEB",
                              font=("Futura", 20, "bold"))
@@ -222,10 +239,6 @@ class DepotScreen(MarketScreen):
 
 
 
-    def back(self):
-        self.destroy()
-        Home = HomeScreen()
-        Home.mainloop()
 
 class Loginwindow(ctk.CTk):
     def __init__(self):

@@ -39,7 +39,7 @@ Market[8].desc = "StartUp"
 #                   Player                       #
 ##################################################
 name = "Testosteronus Maximus"
-Pl = Player(name,690000)
+Pl = Player(name,1000)
 
 
 
