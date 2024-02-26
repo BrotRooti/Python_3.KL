@@ -4,8 +4,9 @@
 
 
 import customtkinter as ctk
-import matplotlib.pyplot as plt
+from matplotlib.figure import Figure
 from Aktien_Config import Pl, Market as M, market_update
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 
 ##################################################
@@ -199,7 +200,7 @@ class TradeScreen(MarketScreen):
 
             Pl.stocks[stock] = amount + Pl.stocks.get(stock, 0)
             Pl.stocks_value[stock] = stock.current_value
-            Pl.money -= stock.current_value * amount
+            Pl.money -= round(stock.current_value * amount, 2)
 
 
         def sell():
@@ -209,7 +210,7 @@ class TradeScreen(MarketScreen):
                 self.after(1000, self.ErrorLabelStocks.grid_forget)
                 return
             Pl.stocks[stock] = Pl.stocks.get(stock, 0) - amount
-            Pl.money += stock.current_value * amount
+            Pl.money += round(stock.current_value * amount, 2)
 
 
         self.amount_entry = ctk.CTkEntry(self.frame2, width=200)
@@ -227,14 +228,12 @@ class TradeScreen(MarketScreen):
         self.sellbutton.grid(row=5, column=0, sticky="n")
 
 
-
 class DepotScreen(MarketScreen):
     def __init__(self):
         super().__init__()
         self.title("Marketing")
 
         self.create_widgets()
-
 
     def create_widgets(self):
         self.frame1 = ctk.CTkScrollableFrame(self, bg_color = "#EBEBEB")
