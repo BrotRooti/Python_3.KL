@@ -12,15 +12,15 @@ def market_update():
 ##################################################
 
 Market = []
-Market.append(LowRiskStock("PhillipsFischereiAG", 230, 2))
-Market.append(LowRiskStock("StableBankingAG", 230, 2))
-Market.append(LowRiskStock("ReliableUtilitiesAG", 230, 2))
-Market.append(MedRiskStock("MaximalGerüstbauAG", 500, 10))
-Market.append(MedRiskStock("DynamicTechAG", 500, 10))
-Market.append(MedRiskStock("ProgressiveAutoAG", 500, 10))
-Market.append(HighRiskStock("R&B RechtskanzleiAG", 727, 50))
-Market.append(HighRiskStock("VolatileCryptoAG", 727, 50))
-Market.append(HighRiskStock("RiskyStartUpAG", 727, 50))
+Market.append(LowRiskStock("PhillipsFischereiAG", 230))
+Market.append(LowRiskStock("StableBankingAG", 230))
+Market.append(LowRiskStock("ReliableUtilitiesAG", 230))
+Market.append(MedRiskStock("MaximalGerüstbauAG", 500))
+Market.append(MedRiskStock("DynamicTechAG", 500))
+Market.append(MedRiskStock("ProgressiveAutoAG", 500))
+Market.append(HighRiskStock("R&B RechtskanzleiAG", 727))
+Market.append(HighRiskStock("VolatileCryptoAG", 727))
+Market.append(HighRiskStock("RiskyStartUpAG", 727))
 
 
 Market[0].desc = "Fischerei"
