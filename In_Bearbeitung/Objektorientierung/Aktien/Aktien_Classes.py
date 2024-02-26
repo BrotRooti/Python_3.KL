@@ -19,15 +19,16 @@ class Player:
         self.stocks = {}
         self.stocks_value = {}
 
+
 class Stock:
-    def __init__(self, name, current_value, desc = None):
+    def __init__(self, name, current_value, desc=None):
         self.name = name
         self.current_value = current_value
         self.desc = desc
 
-
     def update_current_value(self):
         pass
+
 
 class LowRiskStock(Stock):
     def update_current_value(self):
