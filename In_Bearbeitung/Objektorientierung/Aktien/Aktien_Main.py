@@ -19,7 +19,7 @@ from Aktien_Config import Pl
 ##################################################
 
 
-Login = Aktien_GUI.Loginwindow()
+Login = Aktien_GUI.LoginWindow()
 Login.mainloop()
 Pl.name = Login.creds
 

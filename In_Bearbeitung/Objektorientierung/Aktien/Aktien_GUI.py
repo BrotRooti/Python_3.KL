@@ -4,9 +4,7 @@
 
 
 import customtkinter as ctk
-from matplotlib.figure import Figure
 from Aktien_Config import Pl, Market as M, market_update
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 
 ##################################################
@@ -122,8 +120,8 @@ class MarketScreen(HomeScreen):
 
 
     def create_widgets(self):
-        self.frame1 = ctk.CTkScrollableFrame(self, bg_color = "#EBEBEB")
-        self.frame2 = ctk.CTkFrame(self, bg_color = "#EBEBEB")
+        self.frame1 = ctk.CTkScrollableFrame(self, bg_color="#EBEBEB", width=300, height=500)
+        self.frame2 = ctk.CTkFrame(self, bg_color="#EBEBEB", width=600, height=500)
 
         Title = ctk.CTkLabel(self, text = "Trade",
                             fg_color = "transparent", bg_color = "#EBEBEB",
@@ -236,8 +234,8 @@ class DepotScreen(MarketScreen):
         self.create_widgets()
 
     def create_widgets(self):
-        self.frame1 = ctk.CTkScrollableFrame(self, bg_color = "#EBEBEB")
-        self.frame2 = ctk.CTkFrame(self, bg_color = "#EBEBEB")
+        self.frame1 = ctk.CTkScrollableFrame(self, bg_color="#EBEBEB", width=300, height=500)
+        self.frame2 = ctk.CTkFrame(self, bg_color="#EBEBEB", width=600, height=500)
 
 
         Title = ctk.CTkLabel(self, text = "Trade",
@@ -281,9 +279,7 @@ class DepotScreen(MarketScreen):
         ValueLabel.grid(row = 2, column = 0, sticky = "n")
 
 
-
-
-class Loginwindow(ctk.CTk):
+class LoginWindow(ctk.CTk):
     def __init__(self):
         super().__init__()
         self.creds = ""
