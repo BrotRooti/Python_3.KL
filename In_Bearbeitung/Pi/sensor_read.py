@@ -19,7 +19,8 @@ def database_setup():
 
     cursor.execute("USE sensor")
     cursor.execute(
-        "CREATE TABLE IF NOT EXISTS sensor_data (time TIMESTAMP PRIMARY KEY, temp FLOAT, pressure FLOAT, altitude FLOAT)")
+        "CREATE TABLE IF NOT EXISTS sensor_data (id int AUTO_INCREMENT PRIMARY KEY, temp FLOAT, pressure FLOAT, altitude FLOAT, "
+        "time DATETIME)")
     db.commit()
 
 
@@ -30,16 +31,16 @@ database_setup()
 # read and save data
 while True:
     #time_now = int(time.time())
-    time_now = datetime.time(time.ctime())
+    time_now = time.ctime()
     print(time_now)
     temp = sensor.read_temperature()
     pressure = sensor.read_pressure()
     altitude = sensor.read_altitude()
 
-    cursor.execute("INSERT INTO sensor_data (time, temp, pressure, altitude) VALUES "
-                   "(%s, %s, %s, %s)", (time_now, temp, pressure, altitude))
+    cursor.execute("INSERT INTO sensor_data (temp, pressure, altitude, time) VALUES "
+                   "(%s, %s, %s, current_timestamp)", (temp, pressure, altitude))
 
     db.commit()
     print(f"Data saved at {time_now}")
-    time.sleep(0.5)
+    time.sleep(1)
 
